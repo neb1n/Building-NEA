@@ -1,0 +1,65 @@
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from tkinter import *
+
+# Mail window setup
+mail = Tk()
+w = 320
+h = 300
+ws = mail.winfo_screenwidth()
+hs = mail.winfo_screenheight()
+x = (ws/2)-(w/2)
+y = (hs/2)-(h/2)
+mail.geometry(f"{w}x{h}+{int(x)}+{int(y)}")
+mail.title("Mailing")
+mail.configure(bg="pink2")
+
+def email():
+    receiver_email = to_entry.get()
+    subject = subj_entry.get()
+    body = (f"Hello {main_entry.get()}")
+
+    smtp_server = "smtp.gmail.com"
+    smtp_port = 587
+    sender_email = "sanjeetrashad@gmail.com"
+    sender_password = <app password>  
+    # Store securely
+    
+    # Something about storing this as a string maybe pushing it as a Caeser Cipher 
+
+    # Create email message
+    msg = MIMEMultipart()
+    msg["From"] = sender_email
+    msg["To"] = receiver_email
+    msg["Subject"] = subject
+    msg.attach(MIMEText(body, "plain"))
+
+    try:
+        server = smtplib.SMTP(smtp_server, smtp_port)
+        server.starttls()  # Secure connection
+        server.login(sender_email, sender_password)
+        server.send_message(msg)
+        print("Email sent successfully!")
+    except Exception as e:
+        print(f"Error: {e}")
+    finally:
+        server.quit()
+
+# GUI Components
+Label(mail, text="To", font=("Arial", 12, "bold"), bg="pink2").grid(row=0, column=0, sticky="w")
+to_entry = Entry(mail, width=35, font=("Arial", 12))
+to_entry.grid(row=0, column=1)
+
+Label(mail, text="Subject", font=("Arial", 12, "bold"), bg="pink2").grid(row=1, column=0, sticky="w")
+subj_entry = Entry(mail, width=35, font=("Arial", 12))
+subj_entry.grid(row=1, column=1)
+
+Label(mail, text="Main body of text", font=("Arial", 12, "bold"), bg="pink2").grid(row=2, column=0, sticky="w")
+main_entry = Entry(mail, width=35, font=("Arial", 12))
+main_entry.grid(row=2, column=1)
+
+send_btn = Button(mail, text="Send", font=("Arial", 12, "bold"), width=20, bg="pink2", command=email)
+send_btn.grid(row=3, column=1, pady=10)
+
+mail.mainloop()
