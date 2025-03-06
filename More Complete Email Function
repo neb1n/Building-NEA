@@ -1,0 +1,36 @@
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+def email():
+    receiver_email = input("Which email would you like to send this to?")
+    subject = "Movie Reservation"
+    name = input("What is their name?")
+    movie = input(f"What movie has {name} booked to watch?")
+    time = input(f"What time have {name} booked to watch {movie}?")
+    body = (f"Hi {name}, you have been booked to watch {movie} at {time}. This is a DNR confirmation email, if you reply it will not be read.")
+
+    smtp_server = "smtp.gmail.com"
+    smtp_port = 587
+    sender_email = <email>
+    sender_password = <password>
+
+    msg = MIMEMultipart()
+    msg["From"] = sender_email
+    msg["To"]  = receiver_email
+    msg["Subject"] = subject
+    msg.attach(MIMEText(body,"plain")
+
+    try:
+        server = smtplib.SMTP(smtp_server, smtp_port)
+        server.starttls()
+        server.login(sender_email, sender_password)
+        server.send_message(msg)
+        print("Sent")
+    except Exception as e:
+        print(f"Error: {e}")
+    finally:
+        server.quit()
+
+email()
+
